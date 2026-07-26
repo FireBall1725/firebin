@@ -16,7 +16,7 @@ This is the umbrella repo: deploy files, docs, and the project overview. The cod
 | [`firebin-api`](https://github.com/FireBall1725/firebin-api) | The Go 1.26 and Postgres 16 backend. REST on `/api/v1`, port 8080. |
 | [`firebin-web`](https://github.com/FireBall1725/firebin-web) | The React 19 web client. |
 
-Released images are published to `ghcr.io/fireball1725/firebin-api` and `ghcr.io/fireball1725/firebin-web`.
+Released images are published to `ghcr.io/fireball1725/firebin-api` and `ghcr.io/fireball1725/firebin-web`. The API reference is published at https://fireball1725.github.io/firebin-api/.
 
 ## Deploy it
 
