@@ -1,0 +1,10 @@
+# Real environment files (only the .example template is tracked)
+.env
+deploy/.env
+local/.env
+
+# macOS
+.DS_Store
+
+# Local Postgres dumps
+*.sql

@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The production compose interpolates required secrets. Supply throwaway
+      # values so `docker compose config` can parse and validate the file.
+      - name: Validate production compose
+        working-directory: deploy
+        env:
+          DOMAIN: firebin.example.com
+          JWT_SECRET: ci-placeholder
+          POSTGRES_PASSWORD: ci-placeholder
+        run: docker compose -f docker-compose.yml config --quiet
+
+      - name: Validate local compose
+        working-directory: local
+        run: docker compose -f docker-compose.yml config --quiet
+
+      # Every value in the compose file must have a matching key in the template,
+      # so a deployer copying .env.example never hits an unset-variable error.
+      - name: Check .env.example covers every compose variable
+        working-directory: deploy
+        run: |
+          missing=0
+          for var in $(grep -oE '\$\{[A-Z_]+' docker-compose.yml | sed 's/${//' | sort -u); do
+            if ! grep -q "^${var}=" .env.example; then
+              echo "::error::${var} is used in docker-compose.yml but missing from .env.example"
+              missing=1
+            fi
+          done
+          exit $missing

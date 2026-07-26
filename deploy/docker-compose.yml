@@ -1,0 +1,68 @@
+# FireBin self-host stack: Postgres + API + web, behind Caddy for automatic HTTPS.
+# Copy .env.example to .env, fill it in, then:  docker compose up -d
+# The web container proxies /api to the api container, and Caddy terminates TLS.
+name: firebin
+
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: firebin
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: firebin
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U firebin"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  firebin-api:
+    image: ghcr.io/fireball1725/firebin-api:${FIREBIN_VERSION:-latest}
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://firebin:${POSTGRES_PASSWORD:?}@postgres:5432/firebin?sslmode=disable
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+      # Off by default: the first account you register becomes the admin, then
+      # registration is closed. Set to "true" only to allow open self-signup.
+      REGISTRATION_ENABLED: "false"
+      # Optional: enrichment keys. You can instead enter these in the UI at
+      # Settings -> Enrichment, which stores them in the database.
+      DIGIKEY_CLIENT_ID: ${DIGIKEY_CLIENT_ID:-}
+      DIGIKEY_CLIENT_SECRET: ${DIGIKEY_CLIENT_SECRET:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - attachments:/app/data/attachments
+
+  # The service MUST be named firebin-api above: the web container's nginx proxies
+  # /api to http://firebin-api:8080.
+  firebin-web:
+    image: ghcr.io/fireball1725/firebin-web:${FIREBIN_VERSION:-latest}
+    restart: unless-stopped
+    depends_on:
+      - firebin-api
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN in .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - firebin-web
+
+volumes:
+  pgdata:
+  attachments:
+  caddy_data:
+  caddy_config:

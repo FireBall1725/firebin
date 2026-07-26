@@ -1,0 +1,44 @@
+# FireBin local development stack.
+#   postgres  :5432
+#   api       :8080
+#
+# Bring up:  docker compose -p firebin-local up -d --build
+# Rebuild api after Go changes:  docker compose -p firebin-local up -d --build api
+name: firebin-local
+
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: firebin
+      POSTGRES_PASSWORD: firebin
+      POSTGRES_DB: firebin
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U firebin"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: ../api
+    environment:
+      DATABASE_URL: postgres://firebin:firebin@postgres:5432/firebin?sslmode=disable
+      JWT_SECRET: dev-secret-change-me-in-production-0123456789
+      LOG_LEVEL: debug
+      REGISTRATION_ENABLED: "true"
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - attachments:/app/data/attachments
+
+volumes:
+  pgdata:
+  attachments:
