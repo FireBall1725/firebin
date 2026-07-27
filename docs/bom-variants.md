@@ -55,17 +55,22 @@ Leaning B, shipped in two steps: fitted-or-not first, overrides second, on the
 same tables so the second step is additive. C is worth naming only because it is
 what someone does by hand in the meantime.
 
+## Decided
+
+- **Variants are a FireBin concept, not an imported one.** KiCad has no
+  first-class assembly variants, so there is nothing authoritative to read. A
+  variant is created and assigned in FireBin after upload. The importer's only
+  job is to stop discarding DNP lines so there is something to assign.
+- **Variant membership must survive a re-import.** This is a requirement, not a
+  nice-to-have, which rules out keying membership on `line_id`. Key on reference
+  designator instead: `board_line_variants(board_id, variant_id, ref, fitted)`
+  keyed by `ref` rather than by line. A re-upload then rebuilds the lines and
+  the assignments still resolve. Renumbering the schematic breaks it, and that
+  is the accepted failure mode; a re-import that cannot resolve a ref should say
+  so rather than silently drop the assignment.
+
 ## Open questions
 
-- **Where do variants come from on import?** KiCad has no first-class assembly
-  variants. People encode them in a custom symbol field, or lean on DNP for the
-  single-variant case. Do we read a field like `Variant: Pro`, or is assignment
-  purely a FireBin-side thing done after upload?
-- **Re-import stability.** Line ids change on re-upload, so variant membership
-  keyed on `line_id` is lost. `project_matches` already solves the same problem
-  with a `match_key` of MPN or value plus footprint. Reference designator is the
-  more natural key here, and is stable across a re-import unless the schematic
-  is renumbered.
 - **Panels.** `copies` is per board. Can a 6-up panel mix variants, or is a
   panel single-variant?
 - **What does the default mean?** "Everything fitted" and "the variant flagged

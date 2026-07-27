@@ -12,6 +12,8 @@ lives in the workspace plan; these expand the near-term big tasks.
   `fbin_pat_` auth), tools and resources. Shipped.
 - [bom-variants.md](bom-variants.md) — one PCB, several build configurations
   (Lite vs Pro, optional sensors). Backlog, options only.
+- [parameter-search.md](parameter-search.md) — search and display parameter
+  values, including numeric comparison ("≥ 25V caps"). Backlog.
 
 ## Status snapshot (2026-07-26)
 
