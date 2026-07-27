@@ -8,16 +8,21 @@ lives in the workspace plan; these expand the near-term big tasks.
   Nexar.
 - [labels.md](labels.md) — scannable id labels for parts/bins/stock (PDF, ZPL,
   Brother QL) and scan-a-bin.
-- [mcp-server.md](mcp-server.md) — the `firebin-mcp` server (SSE, `fbin_pat_`
-  auth), tools and resources.
+- [mcp-server.md](mcp-server.md) — the `firebin-mcp` server (streamable HTTP,
+  `fbin_pat_` auth), tools and resources. Shipped.
+- [bom-variants.md](bom-variants.md) — one PCB, several build configurations
+  (Lite vs Pro, optional sensors). Backlog, options only.
 
-## Status snapshot (2026-07-23)
+## Status snapshot (2026-07-26)
 
 Built: core API (auth, inventory schema, CRUD, search, SSE), the inventory web
-app (parts/stock/locations/categories, scan-to-add), the scan + EIGP 114 parser
-(Nexar-only enrichment), the full Projects/BOM/assembly system (KiCad ingest,
-generated render, matching, panels, multi-board, pick list, file management),
-and i18n scaffolding.
+app (parts/stock/locations/categories, scan-to-add), the scan + EIGP 114 parser,
+the full Projects/BOM/assembly system (KiCad ingest, generated render, matching,
+panels, multi-board, pick list, file management), i18n scaffolding, Digi-Key
+enrichment, and the MCP server.
 
-Not started: everything in the three docs above, plus the iOS/Mac app and
-deployment to the homelab (runs in local dev today).
+Deployed to the homelab: `firebin-api`, `firebin-web` and `firebin-mcp` all run
+in `app-firebin`.
+
+Not started: the remaining enrichment providers, labels, BOM variants, and the
+iOS/Mac app.
