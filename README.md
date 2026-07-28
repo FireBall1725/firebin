@@ -46,15 +46,16 @@ FireBin is in alpha. Expect rough edges, and keep a backup.
   </tr>
 </table>
 
-## The three repos
+## The four repos
 
 | Repo | What it is |
 |---|---|
 | [`firebin`](https://github.com/FireBall1725/firebin) | This repo. Docker Compose, self-host docs, roadmap. |
 | [`firebin-api`](https://github.com/FireBall1725/firebin-api) | The Go 1.26 and Postgres 16 backend. REST on `/api/v1`, port 8080. |
 | [`firebin-web`](https://github.com/FireBall1725/firebin-web) | The React 19 web client. |
+| [`firebin-mcp`](https://github.com/FireBall1725/firebin-mcp) | Model Context Protocol server, port 8090. Query and manage the inventory from Claude, Cursor, or any MCP client. Optional. |
 
-Released images are published to `ghcr.io/fireball1725/firebin-api` and `ghcr.io/fireball1725/firebin-web`. The API reference is published at https://fireball1725.github.io/firebin-api/.
+Released images are published to `ghcr.io/fireball1725/firebin-api`, `ghcr.io/fireball1725/firebin-web`, and `ghcr.io/fireball1725/firebin-mcp`. The API reference is published at https://fireball1725.github.io/firebin-api/.
 
 ## Deploy it
 

@@ -1,0 +1,18 @@
+name: FireBin
+version: "0.1.0"
+slug: firebin
+description: Self-hosted electronics parts inventory. Scan a distributor bag and the part enriches itself.
+url: https://github.com/FireBall1725/firebin
+arch:
+  - amd64
+  - aarch64
+startup: application
+boot: auto
+ports:
+  "3000/tcp": 3000
+ports_description:
+  "3000/tcp": FireBin web interface
+options:
+  registration_enabled: false
+schema:
+  registration_enabled: bool
