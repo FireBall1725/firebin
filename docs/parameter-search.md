@@ -1,20 +1,26 @@
 # Searching and displaying parameters
 
-Backlog. Not scheduled.
+Partly shipped in 26.8.0. Items 1 and 2 below are still backlog.
 
 ## Goal
 
 Three related asks, smallest first:
 
 1. The command palette should match on parameter values, not just name,
-   keywords, IPN and MPN.
+   keywords, IPN and MPN. **Backlog.**
 2. The parts list should be able to show a parameter as a column, so a screen
    full of capacitors shows voltage instead of thirty rows that differ only in
-   a field you cannot see.
+   a field you cannot see. **Backlog.**
 3. Numeric comparison: "25V caps", and ideally "≥ 25V caps". Value and units
-   are stored in separate columns, so the number is already there.
+   are stored in separate columns, so the number is already there. **Shipped**
+   in 26.8.0 as `GET /parts/search`, backed by `internal/units`, with a spec
+   filter on the parts page and a `search_parts_by_spec` MCP tool.
 
-The third is the one worth having and the one with the real work behind it.
+The third was the one worth having and the one with the real work behind it.
+The rest of this page is the survey that shaped it, and it still describes what
+the data looks like accurately; the naming and unit problems below are why
+matching goes through a unit table rather than string comparison, and why "220
+ohm" never matches 220 pF.
 
 ## What the data actually looks like
 
