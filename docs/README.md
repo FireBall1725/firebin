@@ -14,11 +14,13 @@ lives in the workspace plan; these expand the near-term big tasks.
   (Lite vs Pro, optional sensors). Backlog, options only.
 - [parameter-search.md](parameter-search.md) — search and display parameter
   values, including numeric comparison ("≥ 25V caps"). Backlog.
+- [part-tags.md](part-tags.md) — the other names a part answers to, so "qwiic"
+  finds the JST SH header. Shipped.
 
 ## Status snapshot (2026-07-26)
 
 Built: core API (auth, inventory schema, CRUD, search, SSE), the inventory web
-app (parts/stock/locations/categories, scan-to-add), the scan + EIGP 114 parser,
+app (parts/stock/locations/categories, scan-to-add), part tags, the scan + EIGP 114 parser,
 the full Projects/BOM/assembly system (KiCad ingest, generated render, matching,
 panels, multi-board, pick list, file management), i18n scaffolding, Digi-Key
 enrichment, and the MCP server.
