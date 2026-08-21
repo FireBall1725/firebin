@@ -90,6 +90,12 @@ Then run the web client from the `firebin-web` repo with `npm run dev`. It proxi
 
 See [CLAUDE.md](CLAUDE.md). To change the backend or the client, open a pull request against `firebin-api` or `firebin-web`; this repo holds deploy files and docs.
 
+## Support
+
+Questions, updates, and works in progress: [FireBall Codes on Discord](https://discord.gg/QpV82CFfVD).
+
+If this saved you some time, you can [buy me a sushi roll](https://ko-fi.com/fireball1725).
+
 ## Licence
 
 AGPL-3.0-only. See [LICENSE](LICENSE).
